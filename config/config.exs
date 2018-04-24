@@ -23,6 +23,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :blog, Blog.Guardian,
+       issuer: "blog",
+       secret_key: "/oq7zWIH7dgbE8BEB4YDIcJpAbames7Czc/4GHfPtjYHHT5emJr/FN744pIA2cjG"
+#       secret_key: "Secret key. Use `mix guardian.gen.secret` to generate one"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
