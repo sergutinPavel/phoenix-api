@@ -1,0 +1,18 @@
+{
+  "name": "sling_api",
+  "version": "1.0.0",
+  "description": "To start your Phoenix server:",
+  "main": "mix.exs",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "mix phx.server",
+    "dependencies": "mix deps.get",
+    "migration": "mix ecto.create && mix ecto.migrate",
+    "seed": "mix run priv/repo/seeds.exs"
+  },
+  "author": "",
+  "license": "ISC"
+}
