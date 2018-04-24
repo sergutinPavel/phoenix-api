@@ -2,7 +2,7 @@ defmodule BlogWeb.UserController do
   use BlogWeb, :controller
 
   alias Blog.Accounts
-  alias Blog.Accounts.User
+#  alias Blog.Accounts.User
   alias Blog.Guardian
 
   action_fallback BlogWeb.FallbackController
@@ -10,23 +10,6 @@ defmodule BlogWeb.UserController do
 #  def index(conn, _params) do
 #    users = Accounts.list_users()
 #    render(conn, "index.json", users: users)
-#  end
-
-  #TODO return JWT
-#  def create(conn, %{"user" => user_params}) do
-#    with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
-#      conn
-#      |> put_status(:created)
-#      |> put_resp_header("location", user_path(conn, :show, user))
-#      |> render("show.json", user: user)
-#    end
-#  end
-
-#  def create(conn, %{"user" => user_params}) do
-#    with {:ok, %User{} = user} <- Accounts.create_user(user_params),
-#         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
-#      conn |> render("jwt.json", jwt: token)
-#    end
 #  end
 
   def create(conn, %{"user" => user_params}) do
@@ -45,6 +28,22 @@ defmodule BlogWeb.UserController do
         conn
         |> put_status(401)
         |> render("error.json", message: "Could not register")
+    end
+  end
+
+  def login(conn, %{"email" => email, "password" => password}) do
+    IO.puts "+++++++++++"
+    IO.inspect conn
+    IO.puts "+++++++++++"
+    case Accounts.email_password_auth(email, password) do
+      {:ok, user} ->
+        new_conn = Guardian.Plug.sign_in(conn, user)
+        jwt = Guardian.Plug.current_token(new_conn)
+
+#        conn |> render("jwt.json", jwt: token)
+        new_conn |> render("jwt.json", jwt: jwt)
+      _ ->
+        {:error, :unauthorized}
     end
   end
 
