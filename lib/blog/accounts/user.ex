@@ -2,6 +2,8 @@ defmodule Blog.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Blog.Accounts.User
+
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -24,6 +26,7 @@ defmodule Blog.Accounts.User do
     |> validate_length(:password, min: 6) # Check that password length is >= 6
     |> validate_confirmation(:password) # Check that password === password_confirmation
     |> unique_constraint(:email)
+    |> put_password_hash
   end
 #  def changeset(user, attrs) do
 #    user
