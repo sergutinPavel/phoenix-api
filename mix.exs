@@ -41,7 +41,9 @@ defmodule Blog.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 4.0"},
       {:pbkdf2_elixir, "~> 0.12"},
-      {:guardian, "~> 1.0"}
+      {:guardian, "~> 1.0"},
+      {:plug, "~> 1.5"},
+      {:cors_plug, "~> 1.5"}
     ]
   end
 

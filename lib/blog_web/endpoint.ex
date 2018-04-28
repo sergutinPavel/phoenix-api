@@ -36,6 +36,7 @@ defmodule BlogWeb.Endpoint do
     key: "_blog_key",
     signing_salt: "1jKx5R21"
 
+  plug CORSPlug
   plug BlogWeb.Router
 
   @doc """

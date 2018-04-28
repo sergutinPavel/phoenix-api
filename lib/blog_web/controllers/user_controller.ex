@@ -23,7 +23,7 @@ defmodule BlogWeb.UserController do
         new_conn
 #        |> put_resp_header("authorization", "Bearer #{jwt}")
 #        |> put_resp_header("x-expires", exp)
-        |> render("jwt.json", jwt: jwt)
+        |> render("jwt.json", %{jwt: jwt, user: user})
       {:error, _changeset} ->
         conn
         |> put_status(401)
@@ -32,16 +32,19 @@ defmodule BlogWeb.UserController do
   end
 
   def login(conn, %{"email" => email, "password" => password}) do
-    IO.puts "+++++++++++"
-    IO.inspect conn
-    IO.puts "+++++++++++"
+#    IO.puts "+++++++++++"
+#    IO.inspect conn
+#    IO.puts "+++++++++++"
     case Accounts.email_password_auth(email, password) do
       {:ok, user} ->
         new_conn = Guardian.Plug.sign_in(conn, user)
         jwt = Guardian.Plug.current_token(new_conn)
 
+        IO.puts "+++++++++++"
+        IO.inspect user
+        IO.puts "+++++++++++"
 #        conn |> render("jwt.json", jwt: token)
-        new_conn |> render("jwt.json", jwt: jwt)
+        new_conn |> render("jwt.json", %{jwt: jwt, user: user})
       _ ->
         {:error, :unauthorized}
     end

@@ -4,6 +4,7 @@ defmodule BlogWeb.Router do
   alias Blog.Guardian
 
   pipeline :api do
+    plug CORSPlug, origin: "*"
     plug :accepts, ["json"]
   end
 
